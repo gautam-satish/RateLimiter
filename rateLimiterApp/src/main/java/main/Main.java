@@ -54,7 +54,7 @@ public class Main {
 		
 		/*4) This user is trying to make calls during non-scheduled window.
 			availablecalls = 10
-			timewindow = whole day	 */
+			timewindow = a time window that does not include the current time of execution	 */
 		executeCalls("gautam","get",numberOfcalls);  //custom properies //navigate to UserGenerator.createUsers() method to set custom properties
 		System.out.println("---------------------------------\n");
 		
