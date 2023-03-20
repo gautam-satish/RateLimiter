@@ -9,6 +9,7 @@ service owner and the user (in a decided window time), the rate limiter blocks a
 * [Property File](#property-file)
 * [Technologies](#technologies)
 * [Setup](#setup)
+* [Execution](#execution-behind-the-scenes)
 
 ## Project Design
 ![image](https://user-images.githubusercontent.com/128305722/226242828-ee312e23-7ff7-4386-bd23-dbb7c62acc07.png)
@@ -23,7 +24,7 @@ If either of the above conditions fails, a custom exception (LimitException) is 
 ## Scenarios
 The mentioned scenarios are implemented in the main method of the Main class. 
 * **Scenario 1** - 
-Initially, the user attempts to make API calls outside of the allowed time window, but gains access after a few seconds. However, once the user exhausts their available requests for the specific API, their access is subsequently blocked.
+Initially, the user attempts to make API calls outside of the allowed time window, but gains access after a few seconds. However, when the user exhausts their available requests for the specific API in the valid time window, their access is subsequently blocked.
 
 * **Scenario 2** - 
 The allowed time window gets expired when user is making requests even though the user hasn't exhausted their available number of requests for a specific API.
@@ -49,7 +50,7 @@ The user does not exist.
 ```
 
 ## Property File
-An **"application.properties"** file is created in the **"src/main/resources"** directory to set default values such as the allowed number of requests, start time and end time.
+An **"application.properties"** file is created in the **"src/main/resources"** directory to set default values such as the allowed number of requests, start time and end time. If the api attributes for the user are not set in the 'createUsers' method of UserGenerator class, the default values are fetched from application.properties file.
 ```
 default.maxCalls=7
 default.startTime= 10:00
@@ -64,5 +65,16 @@ Project is created with:
 * Maven-3.8.4 (Eclipse embedded)
 	
 ## Setup
-Import the project as a Maven Project in your IDE. Execute the main method in the 'Main' class which runs all five scenarios mentioned above. 'UserGenerator' class creates 'User' and 'Api' objects using the 'createUsers' method, which sets the api attributes such as the maximum number of calls, start time, and end time for a specific api for a particular user. If the api attributes for the user are not set, the default values are used which are mentioned in application.properties file.
+1) Import the project as a Maven Project in your IDE. 
+2) Execute the 'main' method in the 'Main' class which runs all five scenarios mentioned above.
+
+## Execution (behind the scenes!)
+1) 'UserGenerator' class creates 'User' and 'Api' objects using the 'createUsers' method, which sets the api attributes such as the maximum number of calls, start time, and end time for a specific api for a particular user.
+> **Note**
+> If the api attributes for the user object are not set in 'createUsers' method of 'UserGenerator' class, the default values are used which are mentioned in 'application.properties' file.
+2) The 'executeCalls' method simulates the API request made by the users. It calls the 'validateUser' method of 'RateLimiterService' class for every one second in a loop.
+3) The 'validateUser' method implements the RateLimiter algorithm that verifies whether the request meets the acceptance criteria.
+4) If passed, true response is sent.
+5) If failed, a custom Exception (LimitException) is thrown.
+
 
