@@ -5,6 +5,7 @@ service owner and the user (in a decided window time), the rate limiter blocks a
 * [Project Design](#project-design)
 * [Rate Limiter Algorithm](#rate-limiter-algorithm)
 * [Scenarios](#scenarios)
+* [Dependencies](#dependencies)
 * [Property File](#property-file)
 * [Technologies](#technologies)
 * [Setup](#setup)
